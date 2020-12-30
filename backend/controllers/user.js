@@ -28,7 +28,7 @@ custRegister = async function (req, res, next) {
     userID: user.id,
     lists: [
       {
-        id: uuid.v4(),
+        listID: uuid.v4(),
         shop: "SampleShop",
         items: [
           {

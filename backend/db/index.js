@@ -5,5 +5,6 @@ let lists = require("./shoppingLists");
 module.exports = {
     createUser: user.createUser,
     findUser: user.findUser,
-    getShoppingLists: lists.getShoppingLists
+    getShoppingLists: lists.getShoppingLists,
+    updateShoppingList: lists.updateShoppingList
 };
