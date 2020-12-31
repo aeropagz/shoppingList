@@ -22,7 +22,7 @@ updateShoppingList = async function (list) {
         .collection("lists")
         .updateOne(
           { "lists.listID": list.listID, "lists.listID": list.listID },
-          { $set: { "lists.$.items": list.items } }
+          { $set: { "lists.$": list } }
         );
     } catch {
       throw error;

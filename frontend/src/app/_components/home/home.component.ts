@@ -5,6 +5,8 @@ import { ShoppingListsService } from '../../_services/shopping-lists.service';
 import { ShoppingList } from '../../_models/ShoppingList';
 import { ShoppingItem } from 'src/app/_models/ShoppingItem';
 import { AlertService } from 'src/app/_services/alert.service';
+import { AccountService } from 'src/app/_services/account.service';
+import { User } from 'src/app/_models/User';
 
 @Component({
   selector: 'app-home',
@@ -12,13 +14,14 @@ import { AlertService } from 'src/app/_services/alert.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  public lists: Array<ShoppingList>;
-  userID: string;
+  public lists: ShoppingList[];
+  public user: User;
   form: FormGroup;
   loading = false;
 
   constructor(
     private listService: ShoppingListsService,
+    private accountService: AccountService,
     private formBuilder: FormBuilder,
     private alertService: AlertService
   ) {}
@@ -29,11 +32,17 @@ export class HomeComponent implements OnInit {
       amount: [1, Validators.required],
     });
 
-    this.listService.getShoppingLists().subscribe((data) => {
-      this.lists = data['lists'];
-      this.userID = data['userID'];
-      console.log(this.lists);
+    this.listService.lists.subscribe({
+      next: (lists: ShoppingList[]) => {
+        this.lists = lists;
+      },
     });
+    this.accountService.user.subscribe({
+      next: (user: User) => {
+        this.user = user;
+      }
+    });
+    this.listService.getShoppingLists();
   }
 
   get f() {
@@ -54,7 +63,7 @@ export class HomeComponent implements OnInit {
   }
 
   updateShoppingList(list) {
-    this.listService.updateShoppingLists(list, this.userID).subscribe({
+    this.listService.updateShoppingLists(list).subscribe({
       next: () => {
         this.alertService.success('Item added', { autoClose: true });
       },
@@ -62,5 +71,9 @@ export class HomeComponent implements OnInit {
         this.alertService.error('Item failed', { autoClose: true });
       },
     });
+  }
+
+  getLists() {
+    this.lists = this.listService.listsValues;
   }
 }

@@ -7,9 +7,22 @@ const authenticateJWT = (req, res, next) => {
         const myToken = authHeader.split(' ')[1];
 
         jwt.verify(myToken, process.env.TOKEN_SECRET, (err, user) => {
-            if (err) {
+            if(err && err.name==="TokenExpiredError"){
+                const message = "Session expired"
+                console.log(message);
+                res.status(401).send(message);
+                return;
+            }
+            if(err && err.name==="JsonWebTokenError"){
+                const message ="Invalid token"
+                console.log(message);
+                res.status(401).send(message);
+                return;
+            }
+            
+            else if (err) {
                 console.log(err);
-                res.sendStatus(500);
+                res.status(401).send(err);
             }
 
             req.user = user;

@@ -1,1 +1,53 @@
-<p>settings works!</p>
+<div class="container-fluid mt-5">
+  <div class="row justify-content-around">
+    <div class="col-md-3 col-sm-12 my-4">
+      <h3>Your Lists</h3>
+      <p class="fw-light">Choose one to edit.</p>
+      <ul class="list-group">
+        <li
+          *ngFor="let list of lists"
+          (click)="onSelect(list)"
+          [class.active]="list === selectedList"
+          class="list-group-item"
+        >
+          <span class="badge"></span>{{ list.shop }}
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-4 col-sm-12 my-4">
+      <div *ngIf="selectedList">
+        <h3>{{ selectedList.shop }} Settings</h3>
+        <p class="fw-light">List Options.</p>
+        <form>
+          <div class="form-inline">
+            <div class="form-group">
+              <label for="shop">Shop name:</label>
+              <input
+                id="shop"
+                class="form-control mx-sm-3"
+                [(ngModel)]="selectedList.shop"
+                (focusout)="onFocusOut()"
+                placeholder="name"
+              />
+            </div>
+          </div>
+          <div class="form-inline">
+            <div class="form-group">
+              <label for="exampleColorInput" class="form-label"
+                >Color picker</label
+              >
+              <input
+                type="color"
+                class="form-control form-control-color"
+                id="exampleColorInput"
+                value="#563d7c"
+                title="Choose your color"
+                (onchange)="changeColor(selectedList)"
+              />
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
