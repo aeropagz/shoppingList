@@ -4,19 +4,25 @@ let port = process.env.DB_PORT ? process.env.DB_PORT : "27017";
 let dbName = process.env.DB_NAME ? process.env.DB_NAME : "shopping";
 
 // Connection URL
-const url = "mongodb://shoppingAdmin:shoppingAdminPass@" + host + ":" + port + "/" + dbName;
+const url =
+  "mongodb://shoppingAdmin:shoppingAdminPass@" +
+  host +
+  ":" +
+  port +
+  "/" +
+  dbName;
 let _db;
 
 async function connectToServer() {
   console.log("try connect DB");
   try {
     if (_db) {
-      console.log("db")
+      console.log("db");
       return _db;
     }
     const client = await MongoClient.connect(url, {
       useUnifiedTopology: true,
-      useNewUrlParser: true
+      useNewUrlParser: true,
     });
     _db = client.db(dbName);
     console.log("DataBase connected.");
@@ -38,5 +44,5 @@ const getMongoConfig = () => {
 module.exports = {
   connectToServer,
   getDb,
-  getMongoConfig
+  getMongoConfig,
 };

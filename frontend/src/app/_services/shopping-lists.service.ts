@@ -4,18 +4,20 @@ import { map } from 'rxjs/operators';
 import { Observable, BehaviorSubject } from 'rxjs';
 
 import { ShoppingList } from '../_models/ShoppingList';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ShoppingListsService {
+  lists: Array<ShoppingList>;
   constructor(private http: HttpClient) {}
 
   getShoppingLists() {
-    return this.http.get('http://localhost:8080/lists');
+    this.http.get(environment.apiUrl + '/lists').subscribe();
   }
 
   updateShoppingLists(newList: ShoppingList, userID: String) {
-    return this.http.put('http://localhost:8080/lists', { list: newList });
+    return this.http.put(environment.apiUrl + '/lists', { list: newList });
   }
 }
