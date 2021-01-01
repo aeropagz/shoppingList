@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Alert } from 'src/app/_models/Alert';
 import { ShoppingList } from 'src/app/_models/ShoppingList';
 import { AlertService } from 'src/app/_services/alert.service';
@@ -12,9 +13,13 @@ import { ShoppingListsService } from 'src/app/_services/shopping-lists.service';
 export class SettingsComponent implements OnInit {
   public lists: ShoppingList[];
   public selectedList: ShoppingList;
+  form: FormGroup;
 
-  constructor(private listService: ShoppingListsService,
-              private alertService: AlertService) {}
+  constructor(
+    private listService: ShoppingListsService,
+    private alertService: AlertService,
+    private formBuilder: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.listService.listsSubject.subscribe({
@@ -22,18 +27,25 @@ export class SettingsComponent implements OnInit {
         this.lists = lists;
       },
     });
+
+    this.form = this.formBuilder.group({
+      shop: ['', Validators.required],
+      color: ['', Validators.required],
+    });
   }
-  onSelect(list: ShoppingList){
+  onSelect(list: ShoppingList) {
     this.selectedList = list;
   }
-  onFocusOut(){
-    console.log("fire");
-    console.log(this.selectedList);
+
+  onSubmit() {
+    if (this.form.invalid) {
+      return;
+    }
+    this.selectedList.color = this.form.controls.color.value;
     this.listService.updateShoppingLists(this.selectedList).subscribe({
-      next: ()=>{
-        this.alertService.success("List renamed", {autoClose: true})
-      }
+      next: () => {
+        this.alertService.success('List changed', { autoClose: true });
+      },
     });
-    
   }
 }

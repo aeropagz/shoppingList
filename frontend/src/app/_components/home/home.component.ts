@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
     this.accountService.user.subscribe({
       next: (user: User) => {
         this.user = user;
-      }
+      },
     });
     this.listService.getShoppingLists();
   }
@@ -75,5 +75,11 @@ export class HomeComponent implements OnInit {
 
   getLists() {
     this.lists = this.listService.listsValues;
+  }
+  itemDone(item: ShoppingItem) {
+    console.log(item);
+
+    item.done = !item.done;
+    console.log(item);
   }
 }

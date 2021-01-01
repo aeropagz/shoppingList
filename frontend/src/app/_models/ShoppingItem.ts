@@ -1,4 +1,5 @@
 export class ShoppingItem {
-    name: String;
-    amount: Number;
+  name: String;
+  amount: Number;
+  done: boolean;
 }

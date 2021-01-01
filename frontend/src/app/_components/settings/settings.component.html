@@ -18,33 +18,32 @@
       <div *ngIf="selectedList">
         <h3>{{ selectedList.shop }} Settings</h3>
         <p class="fw-light">List Options.</p>
-        <form>
-          <div class="form-inline">
-            <div class="form-group">
-              <label for="shop">Shop name:</label>
-              <input
-                id="shop"
-                class="form-control mx-sm-3"
-                [(ngModel)]="selectedList.shop"
-                (focusout)="onFocusOut()"
-                placeholder="name"
-              />
-            </div>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="shop">Shop name:</label>
+            <input
+              id="shop"
+              formControlName="shop"
+              class="form-control"
+              placeholder="{{ selectedList.shop }}"
+            />
           </div>
-          <div class="form-inline">
-            <div class="form-group">
-              <label for="exampleColorInput" class="form-label"
-                >Color picker</label
-              >
-              <input
-                type="color"
-                class="form-control form-control-color"
-                id="exampleColorInput"
-                value="#563d7c"
-                title="Choose your color"
-                (onchange)="changeColor(selectedList)"
-              />
-            </div>
+          <div class="form-group">
+            <label for="exampleColorInput" class="form-label"
+              >Color picker</label
+            >
+            <input
+              type="color"
+              formControlName="color"
+              class="form-control form-control-color"
+              value="{{ selectedList.color }}"
+              id="exampleColorInput"
+              title="Choose your color"
+              (onchange)="changeColor(selectedList)"
+            />
+          </div>
+          <div class="form-group">
+            <button class="btn btn-info">Change</button>
           </div>
         </form>
       </div>
