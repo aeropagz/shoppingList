@@ -11,7 +11,11 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'settings', component: SettingsComponent },
+  {
+    path: 'settings',
+    component: SettingsComponent,
+    canActivate: [AuthGuardService],
+  },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];
 

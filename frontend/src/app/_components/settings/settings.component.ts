@@ -30,7 +30,10 @@ export class SettingsComponent implements OnInit {
 
     this.form = this.formBuilder.group({
       shop: ['', Validators.required],
-      color: ['', Validators.required],
+      color: [
+        this.selectedList ? this.selectedList.color : '',
+        Validators.required,
+      ],
     });
   }
   onSelect(list: ShoppingList) {
@@ -42,6 +45,7 @@ export class SettingsComponent implements OnInit {
       return;
     }
     this.selectedList.color = this.form.controls.color.value;
+    this.selectedList.shop = this.form.controls.shop.value;
     this.listService.updateShoppingLists(this.selectedList).subscribe({
       next: () => {
         this.alertService.success('List changed', { autoClose: true });
