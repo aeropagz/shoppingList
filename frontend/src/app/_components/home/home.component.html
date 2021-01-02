@@ -1,6 +1,6 @@
 <div class="container">
   <h1>Hello {{ user.name }}</h1>
-  <div class="row" id="accordion">
+  <div class="row">
     <div
       *ngFor="let list of lists; let i = index"
       class="col-lg-6 col-md-9 col-sm-12 my-2"
@@ -9,6 +9,7 @@
         <div class="card-header">
           {{ list.shop }}
           <button
+            type="button"
             class="btn btn-link"
             [class.collapsed]="i < 0"
             data-toggle="collapse"
@@ -36,7 +37,6 @@
           class="collapse"
           [class.show]="i === 0"
           aria-labelledby="headingOne"
-          data-parent="#accordion"
         >
           <div class="card-body">
             <div class="table-responsive-md">

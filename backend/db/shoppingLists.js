@@ -32,7 +32,23 @@ updateShoppingList = async function (list) {
   }
 };
 
+createNewShoppingList = async function (list, userID) {
+  let db = mongoUtil.getDb();
+  if (db) {
+    try {
+      await db
+        .collection("lists")
+        .updateOne({ userID: userID }, { $addToSet: { lists: list } });
+    } catch {
+      throw error;
+    }
+  } else {
+    return { error: "Database not accessible" };
+  }
+};
+
 module.exports = {
   getShoppingLists,
   updateShoppingList,
+  createNewShoppingList,
 };

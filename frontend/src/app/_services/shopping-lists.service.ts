@@ -16,10 +16,12 @@ export class ShoppingListsService {
   listsSubject: BehaviorSubject<ShoppingList[]>;
   lists: Observable<ShoppingList[]>;
 
-  constructor(private http: HttpClient,
-              private alertService: AlertService,
-              private router: Router,
-              private accountService: AccountService) {
+  constructor(
+    private http: HttpClient,
+    private alertService: AlertService,
+    private router: Router,
+    private accountService: AccountService
+  ) {
     this.listsSubject = new BehaviorSubject<ShoppingList[]>(null);
     this.lists = this.listsSubject.asObservable();
     this.getShoppingLists();
@@ -37,7 +39,9 @@ export class ShoppingListsService {
       },
       error: (data) => {
         console.log(data.error);
-        this.alertService.error(data.error.message, { keepAfterRouteChange: true});
+        this.alertService.error(data.error.message, {
+          keepAfterRouteChange: true,
+        });
         this.accountService.logout();
       },
     });
@@ -45,6 +49,10 @@ export class ShoppingListsService {
 
   updateShoppingLists(newList: ShoppingList) {
     return this.http.put(environment.apiUrl + '/lists', { list: newList });
+  }
+
+  createNewList(newList: ShoppingList) {
+    return this.http.post(environment.apiUrl + '/lists', { list: newList });
   }
 
   clearList() {

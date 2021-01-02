@@ -14,6 +14,7 @@ export class SettingsComponent implements OnInit {
   public lists: ShoppingList[];
   public selectedList: ShoppingList;
   form: FormGroup;
+  newListForm: FormGroup;
 
   constructor(
     private listService: ShoppingListsService,
@@ -30,10 +31,12 @@ export class SettingsComponent implements OnInit {
 
     this.form = this.formBuilder.group({
       shop: ['', Validators.required],
-      color: [
-        this.selectedList ? this.selectedList.color : '',
-        Validators.required,
-      ],
+      color: ['', Validators.required],
+    });
+
+    this.newListForm = this.formBuilder.group({
+      newShop: ['', Validators.required],
+      newColor: ['', Validators.required],
     });
   }
   onSelect(list: ShoppingList) {
@@ -49,6 +52,25 @@ export class SettingsComponent implements OnInit {
     this.listService.updateShoppingLists(this.selectedList).subscribe({
       next: () => {
         this.alertService.success('List changed', { autoClose: true });
+      },
+    });
+  }
+
+  createNewList() {
+    if (this.newListForm.invalid) {
+      return;
+    }
+
+    this.listService.createNewList(this.newListForm.value).subscribe({
+      next: (data) => {
+        console.log(data);
+
+        this.alertService.success('new List created', { autoClose: true });
+      },
+      error: (error) => {
+        console.log(error);
+
+        this.alertService.error(error.error);
       },
     });
   }
