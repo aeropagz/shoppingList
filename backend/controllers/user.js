@@ -30,8 +30,10 @@ custRegister = async function (req, res, next) {
       {
         listID: uuid.v4(),
         shop: "SampleShop",
+        color: "#d6d6d6",
         items: [
           {
+            id: uuid.v4(),
             name: "SampleItem",
             amount: 10,
           },

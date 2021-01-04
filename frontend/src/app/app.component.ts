@@ -6,18 +6,19 @@ import { ShoppingListsService } from './_services/shopping-lists.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'goLocal';
+  title = 'simpleList';
   user: User;
 
-  constructor(private accountService: AccountService,
-              private listService: ShoppingListsService){
-    this.accountService.user.subscribe(x=>this.user = x);
+  constructor(
+    private accountService: AccountService,
+    private listService: ShoppingListsService
+  ) {
+    this.accountService.user.subscribe((x) => (this.user = x));
   }
-  logout(){
-    this.listService.clearList();
+  logout() {
     this.accountService.logout();
   }
 }

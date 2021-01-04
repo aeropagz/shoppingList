@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ShoppingListsService } from '../../_services/shopping-lists.service';
@@ -7,17 +7,21 @@ import { ShoppingItem } from 'src/app/_models/ShoppingItem';
 import { AlertService } from 'src/app/_services/alert.service';
 import { AccountService } from 'src/app/_services/account.service';
 import { User } from 'src/app/_models/User';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import * as uuid from 'uuid';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   public lists: ShoppingList[];
   public user: User;
   form: FormGroup;
   loading = false;
+  private ngUnsubscribe = new Subject();
 
   constructor(
     private listService: ShoppingListsService,
@@ -26,18 +30,24 @@ export class HomeComponent implements OnInit {
     private alertService: AlertService
   ) {}
 
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+    this.listService.clearList();
+  }
+
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
       amount: [1, Validators.required],
     });
 
-    this.listService.lists.subscribe({
+    this.listService.lists.pipe(takeUntil(this.ngUnsubscribe)).subscribe({
       next: (lists: ShoppingList[]) => {
         this.lists = lists;
       },
     });
-    this.accountService.user.subscribe({
+    this.accountService.user.pipe(takeUntil(this.ngUnsubscribe)).subscribe({
       next: (user: User) => {
         this.user = user;
       },
@@ -49,16 +59,26 @@ export class HomeComponent implements OnInit {
     return this.form.controls;
   }
 
-  addItem(list) {
+  addItem(currentList) {
     if (this.form.invalid) {
       return;
     }
-    list.items.push(this.form.value);
-    this.updateShoppingList(list);
+
+    let newItem = {
+      name: this.f.name.value,
+      amount: this.f.amount.value,
+      id: uuid.v4(),
+    };
+    currentList.items.push(newItem);
+    this.updateShoppingList(currentList);
   }
 
   deleteItem(list: ShoppingList, deletedItem: ShoppingItem) {
-    list.items = list.items.filter((item) => item.name !== deletedItem.name);
+    console.log('delete');
+
+    list.items = list.items.filter((item) => {
+      return item.id !== deletedItem.id;
+    });
     this.updateShoppingList(list);
   }
 
@@ -67,7 +87,8 @@ export class HomeComponent implements OnInit {
       next: () => {
         this.alertService.success('Item added', { autoClose: true });
       },
-      error: () => {
+      error: (error) => {
+        console.log(error);
         this.alertService.error('Item failed', { autoClose: true });
       },
     });

@@ -20,6 +20,7 @@ createNewShoppingList = async function (req, res, next) {
     color: req.body.list.newColor,
     items: [
       {
+        id: uuid.v4(),
         name: "SampleItem",
         amount: 42,
       },

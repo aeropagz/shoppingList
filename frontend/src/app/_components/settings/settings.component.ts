@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Alert } from 'src/app/_models/Alert';
 import { ShoppingList } from 'src/app/_models/ShoppingList';
 import { AlertService } from 'src/app/_services/alert.service';
@@ -10,11 +12,12 @@ import { ShoppingListsService } from 'src/app/_services/shopping-lists.service';
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent implements OnDestroy, OnInit {
   public lists: ShoppingList[];
   public selectedList: ShoppingList;
   form: FormGroup;
   newListForm: FormGroup;
+  private ngUnsubscribe = new Subject();
 
   constructor(
     private listService: ShoppingListsService,
@@ -22,12 +25,19 @@ export class SettingsComponent implements OnInit {
     private formBuilder: FormBuilder
   ) {}
 
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
   ngOnInit(): void {
-    this.listService.listsSubject.subscribe({
-      next: (lists) => {
-        this.lists = lists;
-      },
-    });
+    this.listService.listsSubject
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe({
+        next: (lists) => {
+          this.lists = lists;
+        },
+      });
 
     this.form = this.formBuilder.group({
       shop: ['', Validators.required],
@@ -36,11 +46,17 @@ export class SettingsComponent implements OnInit {
 
     this.newListForm = this.formBuilder.group({
       newShop: ['', Validators.required],
-      newColor: ['', Validators.required],
+      newColor: ['#d6d6d6', Validators.required],
     });
   }
   onSelect(list: ShoppingList) {
     this.selectedList = list;
+    if (list) {
+      this.form.setValue({
+        shop: this.selectedList.shop,
+        color: this.selectedList.color,
+      });
+    }
   }
 
   onSubmit() {
@@ -53,6 +69,10 @@ export class SettingsComponent implements OnInit {
       next: () => {
         this.alertService.success('List changed', { autoClose: true });
       },
+      error: (error) => {
+        console.log(error);
+        this.alertService.error(error);
+      },
     });
   }
 
@@ -64,12 +84,11 @@ export class SettingsComponent implements OnInit {
     this.listService.createNewList(this.newListForm.value).subscribe({
       next: (data) => {
         console.log(data);
-
         this.alertService.success('new List created', { autoClose: true });
+        this.listService.getShoppingLists();
       },
       error: (error) => {
         console.log(error);
-
         this.alertService.error(error.error);
       },
     });
