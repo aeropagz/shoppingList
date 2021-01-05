@@ -1,4 +1,4 @@
 export const environment = {
-production: true,
-apiUrl: 'https://simplelist.de:8080'
+  production: true,
+  apiUrl: 'http://192.168.50.47:8080',
 };
