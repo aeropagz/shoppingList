@@ -60,7 +60,15 @@
                           {{ item.name }}
                         </p>
                       </td>
-                      <td colspan="1">{{ item.amount }}</td>
+                      <td colspan="1">
+                        <p
+                          [style.text-decoration-line]="
+                            item.done ? 'line-through' : ''
+                          "
+                        >
+                          {{ item.amount }}
+                        </p>
+                      </td>
                       <td colspan="2">
                         <a class="delete-button"
                           ><button

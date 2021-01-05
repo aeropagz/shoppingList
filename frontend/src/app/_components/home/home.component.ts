@@ -74,8 +74,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   deleteItem(list: ShoppingList, deletedItem: ShoppingItem) {
-    console.log('delete');
-
     list.items = list.items.filter((item) => {
       return item.id !== deletedItem.id;
     });
@@ -85,7 +83,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   updateShoppingList(list) {
     this.listService.updateShoppingLists(list).subscribe({
       next: () => {
-        this.alertService.success('Item added', { autoClose: true });
+        console.log('Item added');
       },
       error: (error) => {
         console.log(error);
@@ -98,9 +96,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.lists = this.listService.listsValues;
   }
   itemDone(item: ShoppingItem) {
-    console.log(item);
-
     item.done = !item.done;
-    console.log(item);
   }
 }
