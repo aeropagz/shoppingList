@@ -1,20 +1,20 @@
-let db = require("../db/index");
-let uuid = require("uuid");
+const db = require("../db/index");
+const uuid = require("uuid");
 
-getShoppingLists = async function (req, res, next) {
-  let userID = req.user.id;
+const getShoppingLists = async function (req, res, next) {
+  const userID = req.user.id;
   let lists = await db.getShoppingLists(userID);
   res.json(lists);
 };
 
-updateShoppingList = async function (req, res, next) {
-  let list = req.body.list;
+const updateShoppingList = async function (req, res, next) {
+  const list = req.body.list;
   await db.updateShoppingList(list);
   res.json({ result: "ok" });
 };
 
-createNewShoppingList = async function (req, res, next) {
-  let list = {
+const createNewShoppingList = async function (req, res, next) {
+  const list = {
     listID: uuid.v4(),
     shop: req.body.list.newShop,
     color: req.body.list.newColor,
@@ -23,10 +23,10 @@ createNewShoppingList = async function (req, res, next) {
         id: uuid.v4(),
         name: "SampleItem",
         amount: 42,
+        done: false,
       },
     ],
   };
-  console.log(req.user, list);
   await db.createNewShoppingList(list, req.user.id);
   res.json({ result: "ok" });
 };

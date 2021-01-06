@@ -1,7 +1,7 @@
-let express = require("express");
-let router = express.Router();
+const express = require("express");
+const router = express.Router();
 
-let lists = require("../controllers/shoppingLists");
+const lists = require("../controllers/shoppingLists");
 const authenticate = require("../middleware/authenticate");
 
 router.get("/", [authenticate.authenticateJWT], lists.getShoppingLists);

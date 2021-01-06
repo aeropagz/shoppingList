@@ -1,22 +1,22 @@
-let bcrypt = require("bcrypt");
-let dotenv = require("dotenv");
-let jwt = require("jsonwebtoken");
-let process = require("process");
-let uuid = require("uuid");
+const bcrypt = require("bcrypt");
+const dotenv = require("dotenv");
+const jwt = require("jsonwebtoken");
+const process = require("process");
+const uuid = require("uuid");
 
-let db = require("../db/index");
+const db = require("../db/index");
 
 dotenv.config();
 
 const saltRounds = 1;
 
 custRegister = async function (req, res, next) {
-  let reqEmail = req.body.email;
-  let reqPassword = req.body.password;
-  let reqName = req.body.name;
+  const reqEmail = req.body.email;
+  const reqPassword = req.body.password;
+  const reqName = req.body.name;
 
-  let hash = await bcrypt.hash(reqPassword, saltRounds);
-  let user = {
+  const hash = await bcrypt.hash(reqPassword, saltRounds);
+  const user = {
     id: uuid.v4(),
     name: reqName,
     password: hash,
@@ -24,7 +24,7 @@ custRegister = async function (req, res, next) {
     email: reqEmail,
     shoppingLists: [],
   };
-  let initLists = {
+  const initLists = {
     userID: user.id,
     lists: [
       {
@@ -36,6 +36,7 @@ custRegister = async function (req, res, next) {
             id: uuid.v4(),
             name: "SampleItem",
             amount: 10,
+            done: false,
           },
         ],
       },
@@ -47,18 +48,18 @@ custRegister = async function (req, res, next) {
 };
 
 login = async function (req, res, next) {
-  let reqEmail = req.body.username;
-  let reqPassword = req.body.password;
+  const reqEmail = req.body.username;
+  const reqPassword = req.body.password;
 
-  let user = await db.findUser(reqEmail);
+  const user = await db.findUser(reqEmail);
 
   if (user && (await bcrypt.compare(reqPassword, user.password))) {
-    let jwtPayload = {
+    const jwtPayload = {
       id: user.id,
       name: user.name,
       role: user.role,
     };
-    let token = jwt.sign(jwtPayload, process.env.TOKEN_SECRET, {
+    const token = jwt.sign(jwtPayload, process.env.TOKEN_SECRET, {
       expiresIn: "1800s",
     });
     res.json({ id: user.id, name: user.name, role: user.role, token: token });

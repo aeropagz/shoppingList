@@ -1,7 +1,7 @@
 const MongoClient = require("mongodb").MongoClient;
-let host = process.env.DB_HOST ? process.env.DB_HOST : "localhost";
-let port = process.env.DB_PORT ? process.env.DB_PORT : "27017";
-let dbName = process.env.DB_NAME ? process.env.DB_NAME : "shopping";
+const host = process.env.DB_HOST ? process.env.DB_HOST : "localhost";
+const port = process.env.DB_PORT ? process.env.DB_PORT : "27017";
+const dbName = process.env.DB_NAME ? process.env.DB_NAME : "shopping";
 
 // Connection URL
 const url =
@@ -13,11 +13,10 @@ const url =
   dbName;
 let _db;
 
-async function connectToServer() {
-  console.log("try connect DB");
+const connectToServer = async () => {
+  console.log("Try connect DB");
   try {
     if (_db) {
-      console.log("db");
       return _db;
     }
     const client = await MongoClient.connect(url, {
@@ -31,7 +30,7 @@ async function connectToServer() {
     console.log("DataBase connection failed." + err);
     return err;
   }
-}
+};
 
 const getDb = () => {
   return _db;

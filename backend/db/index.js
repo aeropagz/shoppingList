@@ -1,5 +1,5 @@
-let user = require("./user");
-let lists = require("./shoppingLists");
+const user = require("./user");
+const lists = require("./shoppingLists");
 
 module.exports = {
   createUser: user.createUser,

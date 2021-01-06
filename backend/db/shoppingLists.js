@@ -1,6 +1,6 @@
-let mongoUtil = require("./mongoUtil");
+const mongoUtil = require("./mongoUtil");
 
-getShoppingLists = async function (userID) {
+const getShoppingLists = async function (userID) {
   let db = mongoUtil.getDb();
   if (db) {
     try {
@@ -14,7 +14,7 @@ getShoppingLists = async function (userID) {
   }
 };
 
-updateShoppingList = async function (list) {
+const updateShoppingList = async function (list) {
   let db = mongoUtil.getDb();
   if (db) {
     try {
@@ -32,7 +32,7 @@ updateShoppingList = async function (list) {
   }
 };
 
-createNewShoppingList = async function (list, userID) {
+const createNewShoppingList = async function (list, userID) {
   let db = mongoUtil.getDb();
   if (db) {
     try {

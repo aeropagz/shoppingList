@@ -6,7 +6,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './_components/login/login.component';
-import { JwtInterceptorService } from './jwt-interceptor.service';
+import { JwtInterceptorService } from './_services/jwt-interceptor.service';
 import { RegisterComponent } from './_components/register/register.component';
 import { AlertComponent } from './_components/alert/alert.component';
 import { HomeComponent } from './_components/home/home.component';

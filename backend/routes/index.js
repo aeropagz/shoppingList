@@ -1,8 +1,8 @@
-let express = require("express");
-let router = express.Router();
+const express = require("express");
+const router = express.Router();
 
-let user = require("./user");
-let lists = require("./lists");
+const user = require("./user");
+const lists = require("./lists");
 
 
 router.use("/user", user);
