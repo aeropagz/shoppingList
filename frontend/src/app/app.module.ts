@@ -11,6 +11,7 @@ import { RegisterComponent } from './_components/register/register.component';
 import { AlertComponent } from './_components/alert/alert.component';
 import { HomeComponent } from './_components/home/home.component';
 import { SettingsComponent } from './_components/settings/settings.component';
+import { WelcomeComponent } from './_components/welcome/welcome.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { SettingsComponent } from './_components/settings/settings.component';
     AlertComponent,
     HomeComponent,
     SettingsComponent,
+    WelcomeComponent,
   ],
   imports: [
     BrowserModule,

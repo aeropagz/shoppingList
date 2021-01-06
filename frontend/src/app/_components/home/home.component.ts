@@ -71,6 +71,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     };
     currentList.items.push(newItem);
     this.updateShoppingList(currentList);
+    
   }
 
   deleteItem(list: ShoppingList, deletedItem: ShoppingItem) {
