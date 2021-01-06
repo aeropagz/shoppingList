@@ -31,8 +31,16 @@ const createNewShoppingList = async function (req, res, next) {
   res.json({ result: "ok" });
 };
 
+const deleteList = async function (req, res, next) {
+  const listID = req.params.id;
+  const userID = req.user.id;
+  await db.deleteList(listID, userID);
+  res.json({ result: "ok" });
+};
+
 module.exports = {
   getShoppingLists,
   updateShoppingList,
   createNewShoppingList,
+  deleteList,
 };

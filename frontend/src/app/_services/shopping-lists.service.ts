@@ -48,11 +48,15 @@ export class ShoppingListsService {
   }
 
   updateShoppingLists(newList: ShoppingList) {
-    return this.http.put(environment.apiUrl + '/lists', { list: newList });
+    return this.http.put(`${environment.apiUrl}/lists`, { list: newList });
   }
 
   createNewList(newList: ShoppingList) {
-    return this.http.post(environment.apiUrl + '/lists', { list: newList });
+    return this.http.post(`${environment.apiUrl}/lists`, { list: newList });
+  }
+
+  deleteList(list: ShoppingList) {
+    return this.http.delete(`${environment.apiUrl}/lists/${list.listID}`);
   }
 
   clearList() {

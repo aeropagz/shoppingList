@@ -87,7 +87,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         console.log(error);
-        this.alertService.error('Item failed', { autoClose: true });
+        this.alertService.error('Error', { autoClose: true });
       },
     });
   }

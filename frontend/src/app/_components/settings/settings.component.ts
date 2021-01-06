@@ -93,4 +93,17 @@ export class SettingsComponent implements OnDestroy, OnInit {
       },
     });
   }
+
+  deleteList(list: ShoppingList) {
+    this.selectedList = null;
+    this.listService.deleteList(list).subscribe({
+      next: () => {
+        this.alertService.success('List deleted', { autoClose: true });
+        this.listService.getShoppingLists();
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
 }

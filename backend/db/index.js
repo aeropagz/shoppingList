@@ -7,4 +7,5 @@ module.exports = {
   getShoppingLists: lists.getShoppingLists,
   updateShoppingList: lists.updateShoppingList,
   createNewShoppingList: lists.createNewShoppingList,
+  deleteList: lists.deleteList,
 };

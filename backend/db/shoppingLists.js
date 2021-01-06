@@ -1,7 +1,7 @@
 const mongoUtil = require("./mongoUtil");
 
 const getShoppingLists = async function (userID) {
-  let db = mongoUtil.getDb();
+  const db = mongoUtil.getDb();
   if (db) {
     try {
       let lists = await db.collection("lists").findOne({ userID: userID });
@@ -15,7 +15,7 @@ const getShoppingLists = async function (userID) {
 };
 
 const updateShoppingList = async function (list) {
-  let db = mongoUtil.getDb();
+  const db = mongoUtil.getDb();
   if (db) {
     try {
       await db
@@ -33,7 +33,7 @@ const updateShoppingList = async function (list) {
 };
 
 const createNewShoppingList = async function (list, userID) {
-  let db = mongoUtil.getDb();
+  const db = mongoUtil.getDb();
   if (db) {
     try {
       await db
@@ -47,8 +47,25 @@ const createNewShoppingList = async function (list, userID) {
   }
 };
 
+const deleteList = async function (listID, userID) {
+  const db = mongoUtil.getDb();
+  if (db) {
+    try {
+      await db
+        .collection("lists")
+        .updateOne(
+          { userID: userID },
+          { $pull: { lists: { listID: listID } } }
+        );
+    } catch {
+      throw error;
+    }
+  }
+};
+
 module.exports = {
   getShoppingLists,
   updateShoppingList,
   createNewShoppingList,
+  deleteList,
 };
