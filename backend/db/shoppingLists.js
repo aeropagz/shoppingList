@@ -20,7 +20,7 @@ const updateShoppingList = async function (list) {
     try {
       await db
         .collection("lists")
-        .updateOne(
+        .updateMany(
           { "lists.listID": list.listID, "lists.listID": list.listID },
           { $set: { "lists.$": list } }
         );
@@ -63,9 +63,24 @@ const deleteList = async function (listID, userID) {
   }
 };
 
+const getList = async function (givenID) {
+  const db = mongoUtil.getDb();
+  if (db) {
+    try {
+      const user = await db
+        .collection("lists")
+        .findOne({ "lists.listID": givenID });
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  }
+};
+
 module.exports = {
   getShoppingLists,
   updateShoppingList,
   createNewShoppingList,
   deleteList,
+  getList,
 };

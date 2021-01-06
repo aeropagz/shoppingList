@@ -51,7 +51,7 @@ login = async function (req, res, next) {
   const reqEmail = req.body.username;
   const reqPassword = req.body.password;
 
-  const user = await db.findUser(reqEmail);
+  const user = await db.findUserByEmail(reqEmail);
 
   if (user && (await bcrypt.compare(reqPassword, user.password))) {
     const jwtPayload = {

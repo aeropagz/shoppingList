@@ -12,6 +12,7 @@ import { AlertComponent } from './_components/alert/alert.component';
 import { HomeComponent } from './_components/home/home.component';
 import { SettingsComponent } from './_components/settings/settings.component';
 import { WelcomeComponent } from './_components/welcome/welcome.component';
+import { ShareComponent } from './_components/share/share.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { WelcomeComponent } from './_components/welcome/welcome.component';
     HomeComponent,
     SettingsComponent,
     WelcomeComponent,
+    ShareComponent,
   ],
   imports: [
     BrowserModule,

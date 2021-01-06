@@ -62,4 +62,7 @@ export class ShoppingListsService {
   clearList() {
     this.listsSubject.next(null);
   }
+  getList(listID: string) {
+    return this.http.get(`${environment.apiUrl}/lists/${listID}`);
+  }
 }

@@ -1,6 +1,6 @@
 export class ShoppingItem {
-  name: String;
-  amount: Number;
+  name: string;
+  amount: number;
   done: boolean;
-  id: String;
+  id: string;
 }

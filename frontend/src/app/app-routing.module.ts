@@ -7,10 +7,12 @@ import { RegisterComponent } from './_components/register/register.component';
 import { HomeComponent } from './_components/home/home.component';
 import { SettingsComponent } from './_components/settings/settings.component';
 import { WelcomeComponent } from './_components/welcome/welcome.component';
+import { ShareComponent } from './_components/share/share.component';
 
 const routes: Routes = [
   { path: '', component: WelcomeComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
+  { path: 'share/:id', component: ShareComponent, canActivate: [AuthGuardService] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   {

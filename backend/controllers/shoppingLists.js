@@ -14,19 +14,24 @@ const updateShoppingList = async function (req, res, next) {
 };
 
 const createNewShoppingList = async function (req, res, next) {
-  const list = {
-    listID: uuid.v4(),
-    shop: req.body.list.newShop,
-    color: req.body.list.newColor,
-    items: [
-      {
-        id: uuid.v4(),
-        name: "SampleItem",
-        amount: 42,
-        done: false,
-      },
-    ],
-  };
+  let list;
+  if (req.body.list.listID) {
+    list = req.body.list;
+  } else {
+    list = {
+      listID: uuid.v4(),
+      shop: req.body.list.newShop,
+      color: req.body.list.newColor,
+      items: [
+        {
+          id: uuid.v4(),
+          name: "SampleItem",
+          amount: 42,
+          done: false,
+        },
+      ],
+    };
+  }
   await db.createNewShoppingList(list, req.user.id);
   res.json({ result: "ok" });
 };
@@ -38,9 +43,24 @@ const deleteList = async function (req, res, next) {
   res.json({ result: "ok" });
 };
 
+const getList = async function (req, res, next) {
+  const listID = Buffer.from(
+    decodeURIComponent(req.params.id),
+    "base64"
+  ).toString();
+  console.log(listID);
+  const listCollection = await db.getList(listID);
+  const { name, email } = await db.findUserByID(listCollection.userID);
+
+  const list = listCollection.lists.filter((list) => list.listID === listID)[0];
+
+  res.json({ list, owner: { name, email } });
+};
+
 module.exports = {
   getShoppingLists,
   updateShoppingList,
   createNewShoppingList,
   deleteList,
+  getList,
 };

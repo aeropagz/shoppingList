@@ -2,10 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Alert } from 'src/app/_models/Alert';
 import { ShoppingList } from 'src/app/_models/ShoppingList';
 import { AlertService } from 'src/app/_services/alert.service';
 import { ShoppingListsService } from 'src/app/_services/shopping-lists.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-settings',
@@ -15,9 +15,10 @@ import { ShoppingListsService } from 'src/app/_services/shopping-lists.service';
 export class SettingsComponent implements OnDestroy, OnInit {
   public lists: ShoppingList[];
   public selectedList: ShoppingList;
+  private ngUnsubscribe = new Subject();
+  public shareLink: String;
   form: FormGroup;
   newListForm: FormGroup;
-  private ngUnsubscribe = new Subject();
 
   constructor(
     private listService: ShoppingListsService,
@@ -105,5 +106,10 @@ export class SettingsComponent implements OnDestroy, OnInit {
         console.log(error);
       },
     });
+  }
+
+  generateLink() {
+    const baseEncodedID = encodeURIComponent(btoa(this.selectedList.listID));
+    this.shareLink = `${environment.ownUrl}/share/${baseEncodedID}`;
   }
 }

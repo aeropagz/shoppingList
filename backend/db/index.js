@@ -3,9 +3,11 @@ const lists = require("./shoppingLists");
 
 module.exports = {
   createUser: user.createUser,
-  findUser: user.findUser,
+  findUserByEmail: user.findUser,
+  findUserByID: user.findUserByID,
   getShoppingLists: lists.getShoppingLists,
   updateShoppingList: lists.updateShoppingList,
   createNewShoppingList: lists.createNewShoppingList,
   deleteList: lists.deleteList,
+  getList: lists.getList,
 };

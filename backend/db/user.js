@@ -1,4 +1,4 @@
-const mongoUtil = require("./mongoUtil");
+let mongoUtil = require("./mongoUtil");
 
 const createUser = async function (userObj, initListsObj) {
   let db = mongoUtil.getDb();
@@ -23,8 +23,20 @@ const findUser = async function (email) {
     }
   } else return { error: "Database not accessible" };
 };
+const findUserByID = async function (userID) {
+  let db = mongoUtil.getDb();
+  if (db) {
+    try {
+      let user = await db.collection("users").findOne({ id: userID });
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  } else return { error: "Database not accessible" };
+};
 
 module.exports = {
   createUser,
   findUser,
+  findUserByID,
 };

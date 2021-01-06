@@ -26,6 +26,7 @@ const authenticateJWT = (req, res, next) => {
       next();
     });
   } else {
+    console.log("no Auth");
     res.sendStatus(401);
   }
 };
