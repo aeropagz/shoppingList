@@ -20,7 +20,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private accountService: AccountService,
     private router: Router,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -45,7 +46,8 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
-          const returnUrl = '/home';
+          const returnUrl =
+            this.route.snapshot.queryParams['returnUrl'] || '/home';
           this.router.navigateByUrl(returnUrl);
         },
         error: (error) => {
