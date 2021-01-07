@@ -1,7 +1,8 @@
-<div class="container-fluid mt-5">
+<div class="container mt-5">
   <div class="row justify-content-around">
     <div class="col-md-3 col-sm-12 my-4">
       <h3>Your Lists</h3>
+      <hr />
       <p class="fw-light">Choose one to edit.</p>
       <ul class="list-group">
         <li
@@ -17,50 +18,61 @@
           (click)="onSelect(null)"
           [class.active]="!selectedList"
         >
-          Add new List
+          Add a new List
         </li>
       </ul>
     </div>
-    <div class="col-md-4 col-sm-12 my-4">
+    <div class="col-md-8 col-sm-12 my-4">
       <div *ngIf="selectedList">
         <h3>{{ selectedList.shop }} Settings</h3>
-        <p class="fw-light">List Styling Options:</p>
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <label for="shop">Shop name:</label>
-            <input
-              id="shop"
-              formControlName="shop"
-              class="form-control"
-              placeholder="{{ selectedList.shop }}"
-            />
-          </div>
-          <div class="form-group">
-            <label for="exampleColorInput" class="form-label"
-              >Color picker</label
-            >
-            <input
-              type="color"
-              formControlName="color"
-              class="form-control"
-              id="exampleColorInput"
-            />
-          </div>
-          <div class="form-group">
-            <button class="btn btn-info">Change</button>
-          </div>
-        </form>
         <hr />
-        <p>Share this list!</p>
-        <button
-          data-toggle="modal"
-          data-target="#shareModal"
-          class="btn btn-info w-100"
-          (click)="generateLink()"
-        >
-          Share
-        </button>
-        <hr />
+        <div *ngIf="selectedList.owner === user.id">
+          <p class="fw-light">List Styling Options:</p>
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label for="shop">Shop name:</label>
+              <input
+                id="shop"
+                formControlName="shop"
+                class="form-control"
+                placeholder="{{ selectedList.shop }}"
+              />
+            </div>
+            <div class="form-group">
+              <label for="exampleColorInput" class="form-label"
+                >Color picker</label
+              >
+              <input
+                type="color"
+                formControlName="color"
+                class="form-control"
+                id="exampleColorInput"
+              />
+            </div>
+            <div class="form-group">
+              <button class="btn btn-info form-control">Change</button>
+            </div>
+          </form>
+          <hr />
+        </div>
+        <div *ngIf="selectedList.owner === user.id">
+          <p>Share this list!</p>
+          <button
+            data-toggle="modal"
+            data-target="#shareModal"
+            class="btn btn-info w-100"
+            (click)="generateLink()"
+          >
+            Share
+          </button>
+          <hr />
+        </div>
+        <div *ngIf="selectedList.owner !== user.id">
+          <p class="font-weight-light text-danger">
+            You can not change this list because you are not the owner
+          </p>
+          <hr />
+        </div>
         <p>Delete this list?</p>
         <button
           data-toggle="modal"
@@ -72,6 +84,7 @@
       </div>
       <div *ngIf="!selectedList">
         <h3>Create a new List!</h3>
+        <hr />
         <form [formGroup]="newListForm" (ngSubmit)="createNewList()">
           <div class="form-group">
             <label for="shop">Shop name:</label>

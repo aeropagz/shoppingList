@@ -1,0 +1,13 @@
+<div class="container">
+  <h1>Account Activation</h1>
+  <div *ngIf="result">
+    <p>Account activated</p>
+    <a href="/login">Go to Login</a>
+  </div>
+  <div *ngIf="!result">
+    <p>
+      Waiting for Activation
+      <span class="spinner-border spinner-border-sm mr-1"></span>
+    </p>
+  </div>
+</div>

@@ -24,7 +24,7 @@ const findUserByEmail = async function (email) {
   } else return { error: "Database not accessible" };
 };
 const findUserByID = async function (userID) {
-  let db = mongoUtil.getDb();
+  const db = mongoUtil.getDb();
   if (db) {
     try {
       let user = await db.collection("users").findOne({ id: userID });
@@ -35,8 +35,27 @@ const findUserByID = async function (userID) {
   } else return { error: "Database not accessible" };
 };
 
+const enableUser = async function (activationKey) {
+  const db = mongoUtil.getDb();
+  if (db) {
+    try {
+      await db
+        .collection("users")
+        .updateOne(
+          { activateKey: activationKey },
+          { $set: { activated: true } }
+        );
+    } catch (error) {
+      throw error;
+    }
+  } else {
+    return { error: "Database not accessible" };
+  }
+};
+
 module.exports = {
   createUser,
   findUserByEmail,
   findUserByID,
+  enableUser,
 };

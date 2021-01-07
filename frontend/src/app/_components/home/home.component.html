@@ -2,19 +2,15 @@
   <h1>Hello {{ user.name }}</h1>
   <hr />
   <div class="row">
-    <div
-      *ngFor="let list of lists; let i = index"
-      class="col-lg-12 col-md-12 col-sm-12 my-2"
-    >
+    <div *ngFor="let list of lists" class="col-lg-12 col-md-12 col-sm-12 my-2">
       <div class="card" [style.border-color]="list.color">
         <div class="card-header">
           {{ list.shop }}
           <button
             type="button"
-            class="btn btn-link"
-            [class.collapsed]="i < 0"
+            class="btn btn-link collapsed openCard"
             data-toggle="collapse"
-            attr.data-target="{{ '#collapse' + list.shop }}"
+            attr.data-target="{{ '#a' + list.listID }}"
             aria-expanded="true"
             aria-controls="collapseOne"
             style="float: right"
@@ -31,12 +27,23 @@
                 d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"
               />
             </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-caret-up-fill"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"
+              />
+            </svg>
           </button>
         </div>
         <div
-          id="{{ 'collapse' + list.shop }}"
+          id="{{ 'a' + list.listID }}"
           class="collapse"
-          [class.show]="i === 0"
           aria-labelledby="headingOne"
         >
           <div class="card-body">

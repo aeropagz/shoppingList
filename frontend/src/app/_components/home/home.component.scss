@@ -1,0 +1,12 @@
+.openCard .bi-caret-down-fill {
+  display: none;
+}
+.openCard.collapsed .bi-caret-down-fill {
+  display: inline-block;
+}
+.openCard .bi-caret-up-fill {
+  display: inline-block;
+}
+.openCard.collapsed .bi-caret-up-fill {
+  display: none;
+}

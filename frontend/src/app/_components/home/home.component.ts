@@ -71,6 +71,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     };
     currentList.items.push(newItem);
     this.updateShoppingList(currentList);
+    this.form.reset();
+    this.form.controls.amount.setValue(1);
   }
 
   deleteItem(list: ShoppingList, deletedItem: ShoppingItem) {

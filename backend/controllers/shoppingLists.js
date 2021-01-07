@@ -17,18 +17,20 @@ const createNewShoppingList = async function (req, res, next) {
   let list;
   let error;
   const listID = req.body.list.listID;
-  const user = await db.getShoppingLists(req.user.id);
+
   if (listID) {
+    const user = await db.getShoppingLists(req.user.id);
     if (listAlreadyExists(user, listID)) {
       error = { message: "List already there" };
     } else {
       list = req.body.list;
-      console.log("create new List");
     }
   } else {
     list = {
       listID: uuid.v4(),
       shop: req.body.list.newShop,
+      owner: req.user.id,
+      shared: false,
       color: req.body.list.newColor,
       items: [
         {

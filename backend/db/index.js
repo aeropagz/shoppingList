@@ -3,6 +3,7 @@ const lists = require("./shoppingLists");
 
 module.exports = {
   createUser: user.createUser,
+  enableUser: user.enableUser,
   findUserByEmail: user.findUserByEmail,
   findUserByID: user.findUserByID,
   getShoppingLists: lists.getShoppingLists,

@@ -6,6 +6,8 @@ export class ShoppingList {
   listID: string;
   shop: string;
   color: string;
+  shared: string;
+  owner: string;
   items: Array<ShoppingItem>;
   allowedUser: Array<User>;
 }

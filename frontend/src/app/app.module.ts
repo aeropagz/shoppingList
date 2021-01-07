@@ -13,6 +13,7 @@ import { HomeComponent } from './_components/home/home.component';
 import { SettingsComponent } from './_components/settings/settings.component';
 import { WelcomeComponent } from './_components/welcome/welcome.component';
 import { ShareComponent } from './_components/share/share.component';
+import { ActivateAccountComponent } from './_components/activate-account/activate-account.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { ShareComponent } from './_components/share/share.component';
     SettingsComponent,
     WelcomeComponent,
     ShareComponent,
+    ActivateAccountComponent,
   ],
   imports: [
     BrowserModule,

@@ -2,11 +2,11 @@ const app = require("./app");
 const https = require("https");
 const http = require("http");
 const fs = require("fs");
+const enviroment = require("./enviroment");
 
 const port = process.env.PORT || 8080;
-const production = false;
 
-if (production) {
+if (enviroment.production) {
   https
     .createServer(
       {

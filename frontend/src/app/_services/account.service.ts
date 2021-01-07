@@ -51,4 +51,9 @@ export class AccountService {
   registerFarmer(user: User) {
     return this.http.post(environment.apiUrl + '/user/register/farmer', user);
   }
+  activateUser(activationKey: string) {
+    return this.http.get(
+      `${environment.apiUrl}/user/activate/${activationKey}`
+    );
+  }
 }
