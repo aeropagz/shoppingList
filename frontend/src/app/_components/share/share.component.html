@@ -1,17 +1,17 @@
-<div class="container">
-  <div class="row">
-    <div class="col-sm-12">
-      <p *ngIf="this.sharedList && this.owner">
-        Do you want to add the list
-        <strong>{{ this.sharedList.shop }}</strong> of
-        <strong>{{ this.owner.name }}</strong> to your account?
-      </p>
-    </div>
-    <div class="col-sm-12">
-      <div class="w-50 d-flex justify-content-around">
-        <button class="btn btn-info" (click)="addList()">Yes</button>
-        <button class="btn btn-warning">No</button>
-      </div>
-    </div>
+<div
+  class="container d-flex flex-column justify-content-center align-items-center"
+>
+  <h1>Hello {{ user.name }}</h1>
+  <hr />
+  <div class="w-50">
+    <p *ngIf="this.sharedList && this.owner" class="text-center">
+      Do you want to add the list
+      <strong>{{ this.sharedList.shop }}</strong> of
+      <strong>{{ this.owner.name }}</strong> to your account?
+    </p>
+  </div>
+  <div class="d-flex justify-content-around w-50">
+    <button class="btn btn-info" (click)="addList()">Yes</button>
+    <button class="btn btn-danger">No</button>
   </div>
 </div>

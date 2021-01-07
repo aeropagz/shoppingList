@@ -63,7 +63,7 @@ const deleteList = async function (listID, userID) {
   }
 };
 
-const getList = async function (givenID) {
+const getUserByListID = async function (givenID) {
   const db = mongoUtil.getDb();
   if (db) {
     try {
@@ -82,5 +82,5 @@ module.exports = {
   updateShoppingList,
   createNewShoppingList,
   deleteList,
-  getList,
+  getUserByListID: getUserByListID,
 };

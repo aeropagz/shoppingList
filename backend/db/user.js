@@ -12,7 +12,7 @@ const createUser = async function (userObj, initListsObj) {
   } else return { error: "Database not accessible" };
 };
 
-const findUser = async function (email) {
+const findUserByEmail = async function (email) {
   let db = mongoUtil.getDb();
   if (db) {
     try {
@@ -37,6 +37,6 @@ const findUserByID = async function (userID) {
 
 module.exports = {
   createUser,
-  findUser,
+  findUserByEmail,
   findUserByID,
 };

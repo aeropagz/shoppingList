@@ -15,8 +15,16 @@ const updateShoppingList = async function (req, res, next) {
 
 const createNewShoppingList = async function (req, res, next) {
   let list;
-  if (req.body.list.listID) {
-    list = req.body.list;
+  let error;
+  const listID = req.body.list.listID;
+  const user = await db.getShoppingLists(req.user.id);
+  if (listID) {
+    if (listAlreadyExists(user, listID)) {
+      error = { message: "List already there" };
+    } else {
+      list = req.body.list;
+      console.log("create new List");
+    }
   } else {
     list = {
       listID: uuid.v4(),
@@ -32,8 +40,12 @@ const createNewShoppingList = async function (req, res, next) {
       ],
     };
   }
-  await db.createNewShoppingList(list, req.user.id);
-  res.json({ result: "ok" });
+  if (!error) {
+    await db.createNewShoppingList(list, req.user.id);
+    res.json({ result: "ok" });
+  } else {
+    res.status(409).json(error);
+  }
 };
 
 const deleteList = async function (req, res, next) {
@@ -48,7 +60,6 @@ const getList = async function (req, res, next) {
     decodeURIComponent(req.params.id),
     "base64"
   ).toString();
-  console.log(listID);
   const listCollection = await db.getList(listID);
   const { name, email } = await db.findUserByID(listCollection.userID);
 
@@ -56,6 +67,17 @@ const getList = async function (req, res, next) {
 
   res.json({ list, owner: { name, email } });
 };
+
+function listAlreadyExists(user, listID) {
+  const listWithSameID = user.lists.filter((list) => {
+    return list.listID === listID;
+  });
+  if (listWithSameID.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
 module.exports = {
   getShoppingLists,
