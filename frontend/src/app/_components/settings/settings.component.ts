@@ -20,6 +20,7 @@ export class SettingsComponent implements OnDestroy, OnInit {
   public selectedList: ShoppingList;
   private ngUnsubscribe = new Subject();
   public shareLink: String;
+  public copied: boolean;
   form: FormGroup;
   newListForm: FormGroup;
 
@@ -123,5 +124,9 @@ export class SettingsComponent implements OnDestroy, OnInit {
   generateLink() {
     const baseEncodedID = encodeURIComponent(btoa(this.selectedList.listID));
     this.shareLink = `${environment.ownUrl}/share/${baseEncodedID}`;
+    this.copied = false;
+  }
+  copy() {
+    this.copied = true;
   }
 }

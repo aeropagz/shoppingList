@@ -14,6 +14,7 @@ import { SettingsComponent } from './_components/settings/settings.component';
 import { WelcomeComponent } from './_components/welcome/welcome.component';
 import { ShareComponent } from './_components/share/share.component';
 import { ActivateAccountComponent } from './_components/activate-account/activate-account.component';
+import { CopyClipboardDirective } from './_directives/copy-clipboard.directive';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { ActivateAccountComponent } from './_components/activate-account/activat
     WelcomeComponent,
     ShareComponent,
     ActivateAccountComponent,
+    CopyClipboardDirective,
   ],
   imports: [
     BrowserModule,

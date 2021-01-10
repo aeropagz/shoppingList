@@ -100,4 +100,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   itemDone(item: ShoppingItem) {
     item.done = !item.done;
   }
+  increaseAmount() {
+    this.form.controls.amount.patchValue(this.form.controls.amount.value + 1);
+  }
+  decreaseAmount() {
+    this.form.controls.amount.patchValue(this.form.controls.amount.value - 1);
+  }
 }

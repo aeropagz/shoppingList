@@ -185,14 +185,28 @@
           <div class="form-group row">
             <label for="shareLink" class="col-sm-2 col-form-label">Link</label>
             <div class="col-sm-10">
-              <input
-                *ngIf="selectedList"
-                type="text"
-                readonly
-                class="form-control plaintext"
-                id="shareLink"
-                [value]="this.shareLink"
-              />
+              <div class="input-group">
+                <input
+                  *ngIf="selectedList"
+                  type="text"
+                  readonly
+                  class="form-control"
+                  id="shareLink"
+                  [value]="this.shareLink"
+                />
+                <span class="input-group-btn">
+                  <button
+                    class="btn form-control"
+                    [class.btn-secondary]="!this.copied"
+                    [class.btn-success]="this.copied"
+                    [appCopyClipboard]="this.shareLink"
+                    (click)="copy()"
+                  >
+                    <div *ngIf="!this.copied">Copy</div>
+                    <div *ngIf="this.copied">Copied</div>
+                  </button>
+                </span>
+              </div>
             </div>
           </div>
         </form>
