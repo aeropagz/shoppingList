@@ -1,22 +1,16 @@
 import { ValidatorFn, FormGroup } from '@angular/forms';
 
-export function requireCheckboxes(): ValidatorFn {
-  console.log('validate');
-
+export function mustMatch(
+  controlName: string,
+  matchingControlName: string
+): ValidatorFn {
   return function validate(formGroup: FormGroup) {
-    let checked = 0;
-    Object.keys(formGroup.controls).forEach((key) => {
-      const control = formGroup.controls[key];
-      if (control.value === true) {
-        checked++;
-      }
-    });
-    if (checked < 1) {
-      return {
-        requireCheckboxesToBeChecked: true,
-      };
-    }
+    const control = formGroup.controls[controlName];
+    const matchingControl = formGroup.controls[matchingControlName];
 
+    if (control.value !== matchingControl.value) {
+      matchingControl.setErrors({ mustMatch: true });
+    }
     return null;
   };
 }

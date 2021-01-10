@@ -4,6 +4,7 @@ import { first } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AccountService } from '../../_services/account.service';
 import { AlertService } from 'src/app/_services/alert.service';
+import { mustMatch } from 'src/app/validatorFuncs';
 
 @Component({
   selector: 'app-register',
@@ -27,8 +28,10 @@ export class RegisterComponent implements OnInit {
     this.form = this.formBuilder.group({
       email: ['', Validators.required],
       name: ['', Validators.required],
-      password: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      password2: ['', Validators.required],
     });
+    this.form.setValidators(mustMatch('password', 'password2'));
   }
   get f() {
     return this.form.controls;
@@ -37,6 +40,8 @@ export class RegisterComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     if (this.form.invalid) {
+      console.log(this.form);
+
       return;
     }
     this.loading = true;
@@ -45,9 +50,12 @@ export class RegisterComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
-          this.alertService.success('Registration successfull', {
-            keepAfterRouteChange: true,
-          });
+          this.alertService.success(
+            'Registration successfull, check your Email for Activation',
+            {
+              keepAfterRouteChange: true,
+            }
+          );
           this.router.navigateByUrl('/login');
         },
         error: (error) => {
