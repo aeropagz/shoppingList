@@ -1,13 +1,12 @@
-const bcrypt = require("bcrypt");
-const dotenv = require("dotenv");
-const jwt = require("jsonwebtoken");
-const process = require("process");
-const uuid = require("uuid");
+import * as bcrypt from "bcrypt";
+import * as jwt from "jsonwebtoken";
+import * as process from "process";
+import * as uuid from "uuid";
 
-const enviroment = require("../enviroment");
+import { enviroment } from "../enviroment.js";
 
-const db = require("../db/index");
-const mailto = require("./mailer");
+import { db } from "../db/index.js";
+import { sendEmail } from "./mailer.js";
 
 dotenv.config();
 
@@ -49,8 +48,8 @@ custRegister = async function (req, res, next) {
       },
     ],
   };
-  await db.createUser(user, initLists);
-  mailto({
+  await db.user.createUser(user, initLists);
+  sendEmail({
     from: "simplelist@online.de",
     to: reqEmail,
     subject: "Registration SimpleList",
@@ -64,7 +63,7 @@ const enableUser = async function (req, res, next) {
 
   console.log(activationKey);
   try {
-    await db.enableUser(activationKey);
+    await db.user.enableUser(activationKey);
     res.json({ result: "succes" });
   } catch (error) {
     res.status(500).json(error);
@@ -75,7 +74,7 @@ const login = async function (req, res, next) {
   const reqEmail = req.body.username;
   const reqPassword = req.body.password;
 
-  const user = await db.findUserByEmail(reqEmail);
+  const user = await db.user.findUserByEmail(reqEmail);
 
   if (
     user &&

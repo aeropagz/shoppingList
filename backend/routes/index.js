@@ -1,16 +1,11 @@
-const express = require("express");
+import express from "express";
+
 const router = express.Router();
 
-const user = require("./user");
-const lists = require("./lists");
+import { userRouter } from "./user.js";
+import { listRouter } from "./lists.js";
 
+router.use("/user", userRouter);
+router.use("/lists", listRouter);
 
-router.use("/user", user);
-router.use("/lists", lists);
-
-
-
-
-
-
-module.exports = router;
+export { router };

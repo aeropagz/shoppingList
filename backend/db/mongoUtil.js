@@ -1,4 +1,6 @@
-const MongoClient = require("mongodb").MongoClient;
+import * as mongodb from "mongodb";
+
+const { MongoClient } = mongodb;
 const host = process.env.DB_HOST ? process.env.DB_HOST : "localhost";
 const port = process.env.DB_PORT ? process.env.DB_PORT : "27017";
 const dbName = process.env.DB_NAME ? process.env.DB_NAME : "shopping";
@@ -30,6 +32,9 @@ const connectToServer = async () => {
 };
 
 const getDb = () => {
+  if (!_db) {
+    connectToServer();
+  }
   return _db;
 };
 
@@ -37,8 +42,4 @@ const getMongoConfig = () => {
   return { host, port, dbName, collectionName };
 };
 
-module.exports = {
-  connectToServer,
-  getDb,
-  getMongoConfig,
-};
+export { connectToServer, getDb, getMongoConfig };

@@ -1,8 +1,8 @@
-const app = require("./app");
-const https = require("https");
-const http = require("http");
-const fs = require("fs");
-const enviroment = require("./enviroment");
+import { app } from "./app.js";
+import * as https from "https";
+import * as http from "http";
+import * as fs from "fs";
+import { enviroment } from "./enviroment.js";
 
 const port = process.env.PORT || 8080;
 

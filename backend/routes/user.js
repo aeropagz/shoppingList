@@ -1,10 +1,11 @@
-const express = require("express");
-const router = express.Router();
+import express from "express";
 
-const user = require("../controllers/user");
+const userRouter = express.Router();
 
-router.post("/login", user.login);
-router.post("/register/customer", user.custRegister);
-router.get("/activate/:id", user.enableUser);
+import * as userHandler from "../controllers/userHandler.js";
 
-module.exports = router;
+userRouter.post("/login", userHandler.login);
+userRouter.post("/register/customer", userHandler.custRegister);
+userRouter.get("/activate/:id", userHandler.enableUser);
+
+export { userRouter };

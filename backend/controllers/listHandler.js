@@ -1,15 +1,15 @@
-const db = require("../db/index");
-const uuid = require("uuid");
+import db from "../db/index";
+import * as uuid from "uuid";
 
 const getShoppingLists = async function (req, res, next) {
   const userID = req.user.id;
-  let lists = await db.getShoppingLists(userID);
+  let lists = await db.list.getShoppingListsByUserID(userID);
   res.json(lists);
 };
 
 const updateShoppingList = async function (req, res, next) {
   const list = req.body.list;
-  await db.updateShoppingList(list);
+  await db.list.updateShoppingList(list);
   res.json({ result: "ok" });
 };
 
@@ -19,7 +19,7 @@ const createNewShoppingList = async function (req, res, next) {
   const listID = req.body.list.listID;
 
   if (listID) {
-    const user = await db.getShoppingLists(req.user.id);
+    const user = await db.list.getShoppingListsByUserID(req.user.id);
     if (listAlreadyExists(user, listID)) {
       error = { message: "List already there" };
     } else {
@@ -43,7 +43,7 @@ const createNewShoppingList = async function (req, res, next) {
     };
   }
   if (!error) {
-    await db.createNewShoppingList(list, req.user.id);
+    await db.list.createNewShoppingList(list, req.user.id);
     res.json({ result: "ok" });
   } else {
     res.status(409).json(error);
@@ -53,7 +53,7 @@ const createNewShoppingList = async function (req, res, next) {
 const deleteList = async function (req, res, next) {
   const listID = req.params.id;
   const userID = req.user.id;
-  await db.deleteList(listID, userID);
+  await db.list.deleteList(listID, userID);
   res.json({ result: "ok" });
 };
 
@@ -62,8 +62,8 @@ const getList = async function (req, res, next) {
     decodeURIComponent(req.params.id),
     "base64"
   ).toString();
-  const listCollection = await db.getList(listID);
-  const { name, email } = await db.findUserByID(listCollection.userID);
+  const listCollection = await db.list.getList(listID);
+  const { name, email } = await db.user.findUserByID(listCollection.userID);
 
   const list = listCollection.lists.filter((list) => list.listID === listID)[0];
 

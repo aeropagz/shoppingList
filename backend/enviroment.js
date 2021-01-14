@@ -6,4 +6,5 @@ let enviroment = {
 enviroment.frontUrl = enviroment.production
   ? enviroment.prodURL
   : enviroment.devURL;
-module.exports = enviroment;
+
+export { enviroment };

@@ -1,14 +1,9 @@
-const user = require("./user");
-const lists = require("./shoppingLists");
+import { List } from "./List.js";
+import { User } from "./User.js";
 
-module.exports = {
-  createUser: user.createUser,
-  enableUser: user.enableUser,
-  findUserByEmail: user.findUserByEmail,
-  findUserByID: user.findUserByID,
-  getShoppingLists: lists.getShoppingLists,
-  updateShoppingList: lists.updateShoppingList,
-  createNewShoppingList: lists.createNewShoppingList,
-  deleteList: lists.deleteList,
-  getList: lists.getUserByListID,
+const db = {
+  user: new User({}),
+  list: new List({}),
 };
+
+export { db };

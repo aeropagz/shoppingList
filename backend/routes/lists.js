@@ -1,13 +1,16 @@
-const express = require("express");
-const router = express.Router();
+import * as express from "express";
+const listRouter = express.Router();
 
-const lists = require("../controllers/shoppingLists");
+const lists = require("../controllers/listHandler");
 const authenticate = require("../middleware/authenticate");
 
-router.get("/", [authenticate.authenticateJWT], lists.getShoppingLists);
-router.put("/", [authenticate.authenticateJWT], lists.updateShoppingList);
-router.post("/", [authenticate.authenticateJWT], lists.createNewShoppingList);
-router.delete("/:id", [authenticate.authenticateJWT], lists.deleteList);
-router.get("/:id", [authenticate.authenticateJWT], lists.getList);
-
-module.exports = router;
+listRouter.get("/", [authenticate.authenticateJWT], lists.getShoppingLists);
+listRouter.put("/", [authenticate.authenticateJWT], lists.updateShoppingList);
+listRouter.post(
+  "/",
+  [authenticate.authenticateJWT],
+  lists.createNewShoppingList
+);
+listRouter.delete("/:id", [authenticate.authenticateJWT], lists.deleteList);
+listRouter.get("/:id", [authenticate.authenticateJWT], lists.getList);
+export { listRouter };

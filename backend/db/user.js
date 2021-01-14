@@ -1,61 +1,57 @@
-let mongoUtil = require("./mongoUtil");
+import * as mongoUtil from "./mongoUtil.js";
 
-const createUser = async function (userObj, initListsObj) {
-  let db = mongoUtil.getDb();
-  if (db) {
-    try {
-      await db.collection("users").insertOne(userObj);
-      await db.collection("lists").insertOne(initListsObj);
-    } catch (error) {
-      throw error;
-    }
-  } else return { error: "Database not accessible" };
-};
+export class User {
+  constructor({ db = null }) {
+    this.db = db || mongoUtil.getDb();
+    console.log(this.db);
+    this.collectionName = "users";
+    this.collection = this.db.collection(this.collectionName);
+  }
 
-const findUserByEmail = async function (email) {
-  let db = mongoUtil.getDb();
-  if (db) {
-    try {
-      let user = await db.collection("users").findOne({ email: email });
-      return user;
-    } catch (error) {
-      throw error;
-    }
-  } else return { error: "Database not accessible" };
-};
-const findUserByID = async function (userID) {
-  const db = mongoUtil.getDb();
-  if (db) {
-    try {
-      let user = await db.collection("users").findOne({ id: userID });
-      return user;
-    } catch (error) {
-      throw error;
-    }
-  } else return { error: "Database not accessible" };
-};
+  async createUser(userObj, initListsObj) {
+    if (this.collection) {
+      try {
+        await this.collection.insertOne(userObj);
+        await db.collection("lists").insertOne(initListsObj);
+      } catch (error) {
+        throw error;
+      }
+    } else return { error: "Database not accessible" };
+  }
 
-const enableUser = async function (activationKey) {
-  const db = mongoUtil.getDb();
-  if (db) {
-    try {
-      await db
-        .collection("users")
-        .updateOne(
+  async findUserByEmail(email) {
+    if (this.collection) {
+      try {
+        let user = await this.collection.findOne({ email: email });
+        return user;
+      } catch (error) {
+        throw error;
+      }
+    } else return { error: "Database not accessible" };
+  }
+  async findUserByID(userID) {
+    if (this.collection) {
+      try {
+        let user = await this.collection.findOne({ id: userID });
+        return user;
+      } catch (error) {
+        throw error;
+      }
+    } else return { error: "Database not accessible" };
+  }
+
+  async enableUser(activationKey) {
+    if (this.collection) {
+      try {
+        await this.collection.updateOne(
           { activateKey: activationKey },
           { $set: { activated: true } }
         );
-    } catch (error) {
-      throw error;
+      } catch (error) {
+        throw error;
+      }
+    } else {
+      return { error: "Database not accessible" };
     }
-  } else {
-    return { error: "Database not accessible" };
   }
-};
-
-module.exports = {
-  createUser,
-  findUserByEmail,
-  findUserByID,
-  enableUser,
-};
+}
