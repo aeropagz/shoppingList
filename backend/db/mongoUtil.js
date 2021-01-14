@@ -1,4 +1,4 @@
-import * as mongodb from "mongodb";
+import mongodb from "mongodb";
 
 const { MongoClient } = mongodb;
 const host = process.env.DB_HOST ? process.env.DB_HOST : "localhost";
@@ -9,37 +9,30 @@ const password = process.env.DB_PASS || "shoppingAdminPass";
 
 // Connection URL
 const url = `mongodb://${username}:${password}@${host}:${port}/${dbName}`;
-let _db;
 
-const connectToServer = async () => {
-  console.log("Try connect DB");
-  console.log(url);
-  try {
-    if (_db) {
-      return _db;
+class MongoDriver {
+  constructor(url) {
+    this.url = url;
+    this.client = new MongoClient(url, { useUnifiedTopology: true });
+    this.db = null;
+  }
+  async connectToServer() {
+    console.log("Try connect DB");
+    console.log(url);
+    try {
+      await this.client.connect();
+      this.db = this.client.db();
+      console.log("DataBase connected.");
+    } catch (err) {
+      console.log("DataBase connection failed." + err);
+      return err;
     }
-    const client = await MongoClient.connect(url, {
-      useUnifiedTopology: true,
-      useNewUrlParser: true,
-    });
-    _db = client.db(dbName);
-    console.log("DataBase connected.");
-    return _db;
-  } catch (err) {
-    console.log("DataBase connection failed." + err);
-    return err;
   }
-};
-
-const getDb = () => {
-  if (!_db) {
-    connectToServer();
+  getDb() {
+    return this._db;
   }
-  return _db;
-};
+}
+let mongoDriver = new MongoDriver(url);
+mongoDriver.connectToServer();
 
-const getMongoConfig = () => {
-  return { host, port, dbName, collectionName };
-};
-
-export { connectToServer, getDb, getMongoConfig };
+export { mongoDriver };

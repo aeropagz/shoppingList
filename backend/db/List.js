@@ -1,11 +1,16 @@
-import * as mongoUtil from "./mongoUtil.js";
+import {mongoDriver} from "./mongoUtil.js";
 
 export class List {
-  constructor(db = mongoUtil.getDb()) {
+  constructor(db) {
     this.db = db;
     this.collectionName = "lists";
-    this.collection = db.collection(this.collectionName);
   }
+  connectDb(){
+    if (this.db) {
+      this.collection = db.collection(this.collectionName);
+    }
+  }
+
   async getShoppingListsByUserID(userID) {
     if (this.collection) {
       try {

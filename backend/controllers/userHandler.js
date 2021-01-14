@@ -1,4 +1,4 @@
-import * as bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import * as jwt from "jsonwebtoken";
 import * as process from "process";
 import * as uuid from "uuid";
@@ -7,12 +7,10 @@ import { enviroment } from "../enviroment.js";
 
 import { db } from "../db/index.js";
 import { sendEmail } from "./mailer.js";
-
-dotenv.config();
-
+console.log("Hallo", db);
 const saltRounds = 1;
 
-custRegister = async function (req, res, next) {
+const custRegister = async function (req, res, next) {
   const reqEmail = req.body.email;
   const reqPassword = req.body.password;
   const reqName = req.body.name;
@@ -75,6 +73,7 @@ const login = async function (req, res, next) {
   const reqPassword = req.body.password;
 
   const user = await db.user.findUserByEmail(reqEmail);
+  console.log(user);
 
   if (
     user &&
@@ -101,8 +100,4 @@ const login = async function (req, res, next) {
   }
 };
 
-module.exports = {
-  custRegister,
-  login,
-  enableUser,
-};
+export { custRegister, login, enableUser };

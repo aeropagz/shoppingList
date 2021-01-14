@@ -1,4 +1,4 @@
-import db from "../db/index";
+import { db } from "../db/index.js";
 import * as uuid from "uuid";
 
 const getShoppingLists = async function (req, res, next) {
@@ -81,7 +81,7 @@ function listAlreadyExists(user, listID) {
   }
 }
 
-module.exports = {
+export {
   getShoppingLists,
   updateShoppingList,
   createNewShoppingList,

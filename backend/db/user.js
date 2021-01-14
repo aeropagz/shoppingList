@@ -1,11 +1,15 @@
-import * as mongoUtil from "./mongoUtil.js";
+import {mongoDriver} from "./mongoUtil.js";
+
 
 export class User {
-  constructor({ db = null }) {
-    this.db = db || mongoUtil.getDb();
-    console.log(this.db);
+  constructor(db) {
+    this.db = db
     this.collectionName = "users";
-    this.collection = this.db.collection(this.collectionName);
+  }
+  connectDb(){
+    if (this.db) {
+      this.collection = this.db.collection(this.collectionName);
+    }
   }
 
   async createUser(userObj, initListsObj) {
