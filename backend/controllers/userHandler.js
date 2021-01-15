@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import * as jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import * as process from "process";
 import * as uuid from "uuid";
 
@@ -7,26 +7,22 @@ import { enviroment } from "../enviroment.js";
 
 import { db } from "../db/index.js";
 import { sendEmail } from "./mailer.js";
-console.log("Hallo", db);
 const saltRounds = 1;
 
 const custRegister = async function (req, res, next) {
-  const reqEmail = req.body.email;
-  const reqPassword = req.body.password;
-  const reqName = req.body.name;
+  const { email, password, name } = req.body;
 
-  const hash = await bcrypt.hash(reqPassword, saltRounds);
+  const hash = await bcrypt.hash(password, saltRounds);
   const user = {
     id: uuid.v4(),
     activated: false,
     activateKey: uuid.v4(),
-    name: reqName,
+    name,
     password: hash,
     role: "customer",
-    email: reqEmail,
-    shoppingLists: [],
+    email,
   };
-  const initLists = {
+  const initList = {
     userID: user.id,
     lists: [
       {
@@ -46,10 +42,11 @@ const custRegister = async function (req, res, next) {
       },
     ],
   };
-  await db.user.createUser(user, initLists);
+  await db.user.createUser(user);
+  await db.list.createNewShoppingList(user.id, initList);
   sendEmail({
     from: "simplelist@online.de",
-    to: reqEmail,
+    to: email,
     subject: "Registration SimpleList",
     html: `<h1>Welcome to SimpleList</h1> <p>Hello ${user.name}, click this <a href="${enviroment.frontUrl}/activate/${user.activateKey}">link</a> to activate your account .</p>`,
   });
@@ -69,6 +66,7 @@ const enableUser = async function (req, res, next) {
 };
 
 const login = async function (req, res, next) {
+  console.log("login", db);
   const reqEmail = req.body.username;
   const reqPassword = req.body.password;
 

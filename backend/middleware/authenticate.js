@@ -1,4 +1,4 @@
-import  * as jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 const authenticateJWT = (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -30,6 +30,4 @@ const authenticateJWT = (req, res, next) => {
   }
 };
 
-export {
-  authenticateJWT,
-};
+export { authenticateJWT };

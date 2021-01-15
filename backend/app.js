@@ -1,11 +1,11 @@
 import express from "express";
-import * as bodyParser from "body-parser";
 import cors from "cors";
-
+import dotenv from "dotenv";
 import { router } from "./routes/index.js";
-import * as mongoUtil from "./db/mongoUtil.js";
 
+dotenv.config();
 const app = express();
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

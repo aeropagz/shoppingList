@@ -1,4 +1,6 @@
 import mongodb from "mongodb";
+import { User } from "./User.js";
+import { List } from "./List.js";
 
 const { MongoClient } = mongodb;
 const host = process.env.DB_HOST ? process.env.DB_HOST : "localhost";
@@ -23,16 +25,20 @@ class MongoDriver {
       await this.client.connect();
       this.db = this.client.db();
       console.log("DataBase connected.");
+      this.user = new User(this.db);
+      this.list = new List(this.db);
     } catch (err) {
       console.log("DataBase connection failed." + err);
       return err;
     }
   }
-  getDb() {
-    return this._db;
-  }
 }
+
+async function start() {
+  await mongoDriver.connectToServer();
+}
+
 let mongoDriver = new MongoDriver(url);
-mongoDriver.connectToServer();
+start();
 
 export { mongoDriver };

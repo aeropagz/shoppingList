@@ -1,4 +1,4 @@
-import * as nodemailer from "nodemailer";
+import nodemailer from "nodemailer";
 
 async function sendEmail({ from, to, subject, html }) {
   let emailTransport = nodemailer.createTransport({
