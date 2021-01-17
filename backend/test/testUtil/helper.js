@@ -12,7 +12,10 @@ export class TestDbHelper {
 
   async start() {
     const url = await this.server.getUri();
-    this.connection = await MongoClient.connect(url, { useNewUrlParser: true });
+    this.connection = await MongoClient.connect(url, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     this.db = this.connection.db(await this.server.getDbName());
   }
 
@@ -26,7 +29,7 @@ export class TestDbHelper {
     return Promise.all(
       collections
         .map(({ name }) => name)
-        .map((collection) => this.collection(collection).drop())
+        .map((collection) => this.db.collection(collection).drop())
     );
   }
 

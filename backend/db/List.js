@@ -1,5 +1,3 @@
-import { mongoDriver } from "./mongoDriver.js";
-
 export class List {
   constructor(db) {
     this.collectionName = "lists";

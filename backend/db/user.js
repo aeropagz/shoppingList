@@ -1,5 +1,3 @@
-import { mongoDriver } from "./mongoDriver.js";
-
 export class User {
   constructor(db) {
     this.collectionName = "users";
