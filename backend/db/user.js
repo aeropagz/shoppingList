@@ -2,7 +2,8 @@ import { mongoDriver } from "./mongoDriver.js";
 
 export class User {
   constructor(db) {
-    this.collection = db.collection("users");
+    this.collectionName = "users";
+    this.collection = db.collection(this.collectionName);
   }
 
   async createUser(userObj) {

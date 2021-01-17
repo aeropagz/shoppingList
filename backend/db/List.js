@@ -2,7 +2,8 @@ import { mongoDriver } from "./mongoDriver.js";
 
 export class List {
   constructor(db) {
-    this.collection = db.collection("lists");
+    this.collectionName = "lists";
+    this.collection = db.collection(this.collectionName);
   }
 
   async getShoppingListsByUserID(userID) {
