@@ -7,8 +7,7 @@ export class List {
   async getShoppingListsByUserID(userID) {
     if (this.collection) {
       try {
-        let lists = await this.collection.findOne({ userID: userID });
-        return lists;
+        return await this.collection.findOne({ userID: userID });
       } catch (error) {
         throw error;
       }
@@ -20,8 +19,8 @@ export class List {
   async updateShoppingList(list) {
     if (this.collection) {
       try {
-        await dthis.collection.updateMany(
-          { "lists.listID": list.listID, "lists.listID": list.listID },
+        return await this.collection.updateMany(
+          { "lists.listID": list.listID },
           { $set: { "lists.$": list } }
         );
       } catch {
@@ -35,7 +34,7 @@ export class List {
   async createNewShoppingList(list, userID) {
     if (this.collection) {
       try {
-        await this.collection.updateOne(
+        return await this.collection.updateOne(
           { userID: userID },
           { $addToSet: { lists: list } }
         );
@@ -50,7 +49,7 @@ export class List {
   async deleteList(listID, userID) {
     if (this.collection) {
       try {
-        await this.collection.updateOne(
+        return await this.collection.updateOne(
           { userID: userID },
           { $pull: { lists: { listID: listID } } }
         );

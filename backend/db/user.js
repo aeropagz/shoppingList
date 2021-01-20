@@ -38,10 +38,11 @@ export class User {
   async enableUser(activationKey) {
     if (this.collection) {
       try {
-        await this.collection.updateOne(
+        const result = await this.collection.updateOne(
           { activateKey: activationKey },
           { $set: { activated: true } }
         );
+        return result;
       } catch (error) {
         throw error;
       }

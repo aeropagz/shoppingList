@@ -56,7 +56,6 @@ const custRegister = async function (req, res, next) {
 const enableUser = async function (req, res, next) {
   const activationKey = req.params.id;
 
-  console.log(activationKey);
   try {
     await db.user.enableUser(activationKey);
     res.json({ result: "succes" });
@@ -66,20 +65,17 @@ const enableUser = async function (req, res, next) {
 };
 
 const login = async function (req, res, next) {
-  console.log("login", db);
   const reqEmail = req.body.username;
   const reqPassword = req.body.password;
 
   const user = await db.user.findUserByEmail(reqEmail);
-  console.log(user);
+  let errorMessage;
 
   if (
     user &&
     (await bcrypt.compare(reqPassword, user.password)) &&
     user.activated
   ) {
-    let errorMessage;
-
     const jwtPayload = {
       id: user.id,
       name: user.name,

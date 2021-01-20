@@ -21,26 +21,26 @@ afterEach(async () => {
   await dbHelper.cleanUp();
 });
 
-describe("Find by ID", () => {
-  test("should return the correct document by ID", async () => {
+describe("Find by User by User ID", () => {
+  test("should return the correct user by ID", async () => {
     const { user1 } = await createSampleUsers();
     const result = await user.findUserByID("sampleID1");
     expect(result).toMatchObject(user1);
   });
   test("should not find any user", async () => {
-    const result = await user.findUserByID("randomString");
+    const result = await user.findUserByID("non-excisting-ID");
     expect(result).toBeNull();
   });
 });
 
-describe("Find by Email", () => {
-  test("should return the correct document by Email", async () => {
+describe("Find User by Email", () => {
+  test("should return the correct user by Email", async () => {
     const { user4 } = await createSampleUsers();
     const result = await user.findUserByEmail("malody@test.de");
     expect(result).toMatchObject(user4);
   });
   test("should not find any user", async () => {
-    const result = await user.findUserByEmail("example@test.de");
+    const result = await user.findUserByEmail("non-excisting-email@test.de");
     expect(result).toBeNull();
   });
 });
@@ -51,6 +51,11 @@ describe("Activate Users", () => {
     await user.enableUser("sampleKey3");
     const result = await user.findUserByID("sampleID3");
     expect(result.activated).toBeTruthy();
+  });
+  test("should not activate any user", async () => {
+    await createSampleUsers();
+    const result = await user.enableUser("non-excisting-Key");
+    expect(result.matchedCount).toBe(0);
   });
 });
 
