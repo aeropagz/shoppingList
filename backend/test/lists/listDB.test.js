@@ -1,7 +1,5 @@
 import { List } from "../../db/List";
 import { TestDbHelper } from "../testUtil/helper";
-import bycrypt from "bcryptjs";
-import { expr } from "jquery";
 
 const dbHelper = new TestDbHelper();
 
