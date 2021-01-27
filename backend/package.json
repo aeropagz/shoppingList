@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "test": "jest"
+    "test": "jest --watch --verbose false"
   },
   "repository": {
     "type": "git",
