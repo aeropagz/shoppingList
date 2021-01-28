@@ -1,3 +1,6 @@
+mongo
+use shopping
+
 db.createUser(
   {
     user: "shoppingAdmin",

@@ -23,6 +23,7 @@ afterEach(async () => {
 describe("Find List by List ID", () => {
   test("should return the correct list by ID", async () => {
     const { lists1 } = await createSampleLists();
+
     const result = await list.getShoppingListsByUserID("sampleUser1");
     expect(result).toMatchObject(lists1);
   });

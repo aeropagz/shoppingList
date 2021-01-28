@@ -6,30 +6,36 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
 export class TestDbHelper {
   constructor() {
     this.db = null;
-    this.server = new MongoMemoryServer();
+    this.username = "testUser";
+    this.password = "testPass";
+    this.host = "localhost";
+    this.port = 27017;
+    this.dbName = "test";
+    this.url = `mongodb://${this.username}:${this.password}@${this.host}:${this.port}/${this.dbName}`;
     this.connection = null;
   }
 
   async start() {
-    const url = await this.server.getUri();
-    this.connection = await MongoClient.connect(url, {
+    this.connection = await MongoClient.connect(this.url, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    this.db = this.connection.db(await this.server.getDbName());
+    this.db = this.connection.db(this.dbName);
   }
 
   async stop() {
     this.connection.close();
-    return this.server.stop();
   }
 
   async cleanUp() {
     const collections = await this.db.listCollections().toArray();
+
     return Promise.all(
       collections
         .map(({ name }) => name)
-        .map((collection) => this.db.collection(collection).drop())
+        .map(async (collection) => {
+          await this.db.collection(collection).drop();
+        })
     );
   }
 
