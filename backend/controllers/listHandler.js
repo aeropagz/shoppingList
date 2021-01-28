@@ -9,9 +9,7 @@ const getShoppingLists = async function (req, res, next) {
 
 const updateShoppingList = async function (req, res, next) {
   const list = req.body.list;
-  console.log(list);
   let result = await db.list.updateShoppingList(list);
-  console.log(result);
   res.json({ result: "ok" });
 };
 
