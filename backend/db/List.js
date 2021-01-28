@@ -30,6 +30,17 @@ export class List {
       return { error: "Database not accessible" };
     }
   }
+  async initNewListCollection(initList) {
+    if (this.collection) {
+      try {
+        return await this.collection.insertOne(initList);
+      } catch (error) {
+        throw error;
+      }
+    } else {
+      return { error: "Database not accessible" };
+    }
+  }
 
   async createNewShoppingList(list, userID) {
     if (this.collection) {

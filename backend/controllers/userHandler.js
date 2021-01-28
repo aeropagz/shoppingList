@@ -43,12 +43,12 @@ const custRegister = async function (req, res, next) {
     ],
   };
   await db.user.createUser(user);
-  await db.list.createNewShoppingList(user.id, initList);
+  await db.list.initNewListCollection(initList);
   sendEmail({
     from: "simplelist@online.de",
     to: email,
     subject: "Registration SimpleList",
-    html: `<h1>Welcome to SimpleList</h1> <p>Hello ${user.name}, click this <a href="${enviroment.frontUrl}/activate/${user.activateKey}">link</a> to activate your account .</p>`,
+    html: `<h1>Welcome to SimpleList</h1> <p>Hello ${name}, click this <a href="${enviroment.frontUrl}/activate/${user.activateKey}">link</a> to activate your account .</p>`,
   });
   res.json({ result: "success" });
 };

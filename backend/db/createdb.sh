@@ -10,3 +10,15 @@ db.createUser(
 )
 db.createCollection("users")
 db.createCollection("lists")
+
+
+
+db.createUser(
+  {
+    user: "prodUserShopping",
+    pwd: "5up3rS3(ur3P44723", // or cleartext password
+    roles: [ { role: "readWrite", db: "shopping" } ]
+  }
+)
+
+
