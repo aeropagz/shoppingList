@@ -1,4 +1,3 @@
-#!/bin/sh
 ssh klaas@simplelist.de <<EOF
 cd ~/shoppingList/
 git pull
