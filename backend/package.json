@@ -1,6 +1,6 @@
 {
   "name": "simplelist",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "simple List App",
   "main": "app.js",
   "type": "module",
