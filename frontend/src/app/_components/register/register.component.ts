@@ -60,7 +60,7 @@ export class RegisterComponent implements OnInit {
         },
         error: (error) => {
           console.log(error);
-          this.alertService.error(error.error, { autoClose: true });
+          this.alertService.error(error.error.msg, { autoClose: true });
           this.loading = false;
         },
       });
