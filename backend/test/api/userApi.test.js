@@ -1,10 +1,12 @@
 const request = require("supertest");
 import { app } from "../../app";
-import { initDb } from "../../db/index";
-require("dotenv").config();
+import { initDb, closeDb } from "../../db/index";
 
 beforeAll(async () => {
-  await initDb();
+  await initDb("test", "testUser", "testPass");
+});
+afterAll(() => {
+  closeDb();
 });
 
 describe("create Account", () => {

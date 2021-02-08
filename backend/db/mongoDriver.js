@@ -24,6 +24,9 @@ class MongoDriver {
       return err;
     }
   }
+  async stop() {
+    this.client.close();
+  }
 }
 
 export { MongoDriver };
