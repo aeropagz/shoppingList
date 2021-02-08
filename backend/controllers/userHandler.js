@@ -12,7 +12,7 @@ const production = enviroment.production;
 
 const custRegister = async function (req, res, next) {
   const { email, password, name } = req.body;
-  const existingUser = db.user.findUserByEmail(email);
+  const existingUser = await db.user.findUserByEmail(email);
   if (existingUser) {
     res.status(403).json({ msg: "Email already used." });
     return;

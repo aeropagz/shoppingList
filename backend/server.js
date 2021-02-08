@@ -1,11 +1,14 @@
 import { app } from "./app.js";
-import * as https from "https";
-import * as http from "http";
-import * as fs from "fs";
+import https from "https";
+import http from "http";
+import fs from "fs";
 import { enviroment } from "./enviroment.js";
+import { initDb } from "./db/index.js";
 
 const port = process.env.PORT || 8080;
-
+(async () => {
+  await initDb();
+})();
 if (enviroment.production) {
   https
     .createServer(
