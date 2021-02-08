@@ -4,10 +4,11 @@ import * as process from "process";
 import * as uuid from "uuid";
 
 import { enviroment } from "../enviroment.js";
-
 import { db } from "../db/index.js";
 import { sendEmail } from "./mailer.js";
+
 const saltRounds = 1;
+const production = enviroment.production;
 
 const custRegister = async function (req, res, next) {
   const { email, password, name } = req.body;
@@ -44,12 +45,16 @@ const custRegister = async function (req, res, next) {
   };
   await db.user.createUser(user);
   await db.list.initNewListCollection(initList);
-  sendEmail({
-    from: "simplelist@online.de",
-    to: email,
-    subject: "Registration SimpleList",
-    html: `<h1>Welcome to SimpleList</h1> <p>Hello ${name}, click this <a href="${enviroment.frontUrl}/activate/${user.activateKey}">link</a> to activate your account .</p>`,
-  });
+  if (production) {
+    sendEmail({
+      from: "simplelist@online.de",
+      to: email,
+      subject: "Registration SimpleList",
+      html: `<h1>Welcome to SimpleList</h1> <p>Hello ${name}, click this <a href="${enviroment.frontUrl}/activate/${user.activateKey}">link</a> to activate your account .</p>`,
+    });
+  } else {
+    db.user.enableUser(user.activateKey);
+  }
   res.json({ result: "success" });
 };
 

@@ -3,14 +3,6 @@ import { User } from "./User.js";
 import { List } from "./List.js";
 
 const { MongoClient } = mongodb;
-const host = process.env.DB_HOST ? process.env.DB_HOST : "localhost";
-const port = process.env.DB_PORT ? process.env.DB_PORT : "27017";
-const dbName = process.env.DB_NAME ? process.env.DB_NAME : "shopping";
-const username = process.env.DB_USER || "shoppingAdmin";
-const password = process.env.DB_PASS || "shoppingAdminPass";
-
-// Connection URL
-const url = `mongodb://${username}:${password}@${host}:${port}/${dbName}`;
 
 class MongoDriver {
   constructor(url) {
@@ -20,7 +12,7 @@ class MongoDriver {
   }
   async connectToServer() {
     console.log("Try connect DB");
-    console.log(url);
+    console.log(this.url);
     try {
       await this.client.connect();
       this.db = this.client.db();
@@ -34,11 +26,4 @@ class MongoDriver {
   }
 }
 
-async function start() {
-  await mongoDriver.connectToServer();
-}
-
-let mongoDriver = new MongoDriver(url);
-start();
-
-export { mongoDriver };
+export { MongoDriver };

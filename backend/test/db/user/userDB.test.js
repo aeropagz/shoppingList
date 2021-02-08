@@ -1,4 +1,4 @@
-import { User } from "../../db/User";
+import { User } from "../../../db/User";
 import { TestDbHelper } from "../testUtil/helper";
 import bycrypt from "bcryptjs";
 

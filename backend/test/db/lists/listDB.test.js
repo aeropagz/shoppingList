@@ -1,4 +1,4 @@
-import { List } from "../../db/List";
+import { List } from "../../../db/List";
 import { TestDbHelper } from "../testUtil/helper";
 
 const dbHelper = new TestDbHelper();
