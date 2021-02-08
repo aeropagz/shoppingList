@@ -1,12 +1,12 @@
 const request = require("supertest");
 import { app } from "../../app";
-import { initDb, closeDb } from "../../db/index";
+import { initDb, db } from "../../db/index";
 
 beforeAll(async () => {
   await initDb("test", "testUser", "testPass");
 });
 afterAll(() => {
-  closeDb();
+  db.stop();
 });
 
 describe("create Account", () => {
