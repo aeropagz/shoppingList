@@ -97,8 +97,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   getLists() {
     this.lists = this.listService.listsValues;
   }
-  itemDone(item: ShoppingItem) {
+  itemDone(item: ShoppingItem, list: ShoppingList) {
     item.done = !item.done;
+    this.updateShoppingList(list);
   }
   increaseAmount() {
     this.form.controls.amount.patchValue(this.form.controls.amount.value + 1);
